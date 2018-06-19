@@ -12,6 +12,11 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 
+/**
+ * Helper for the fixtures loading.
+ *
+ * @author Anton Pelykh <anton.pelykh.dev@gmail.com>
+ */
 class Fixture extends Module
 {
     /**

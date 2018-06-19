@@ -4,6 +4,9 @@ declare(strict_types = 1);
 
 namespace App\Dto\Request;
 
+use App\Component\Validator\Constraints as AppAssert;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * DTO object which represents a proper deserialized json object.
  *
@@ -17,18 +20,46 @@ class ProductionCapacity
     private $id;
     /**
      * @var int
+     *
+     * @Assert\NotNull(
+     *     groups={"OpCreate"},
+     * )
+     * @AppAssert\ExistEntity(
+     *     entityClass="App\Entity\ProductionUnit",
+     *     groups={"OpCreate"},
+     * )
      */
     private $productionUnitId;
     /**
      * @var int
+     *
+     * @Assert\NotNull(
+     *     groups={"OpCreate"},
+     * )
+     * @AppAssert\ExistEntity(
+     *     entityClass="App\Entity\TimeUnit",
+     *     groups={"OpCreate"},
+     * )
      */
     private $timeUnitId;
     /**
      * @var int
+     *
+     * @Assert\NotNull(
+     *     groups={"OpCreate"},
+     * )
+     * @AppAssert\ExistEntity(
+     *     entityClass="App\Entity\ProductGroup",
+     *     groups={"OpCreate"},
+     * )
      */
     private $productGroupId;
     /**
      * @var int
+     *
+     * @Assert\NotNull(
+     *     groups={"OpCreate"},
+     * )
      */
     private $amount;
 
