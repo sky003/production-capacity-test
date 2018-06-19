@@ -35,11 +35,13 @@ class ProductionCapacityCest
         $productGroup = $this->fixture->getReference(ProductGroupFixtureLoader::REF_PRODUCT_GROUP, 3);
 
         $data = [
-            [
-                'timeUnitId' => $timeUnit->getId(),
-                'productionUnitId' => $productionUnit->getId(),
-                'productGroupId' => $productGroup->getId(),
-                'amount' => 150,
+            'productionCapacities' => [
+                [
+                    'timeUnitId' => $timeUnit->getId(),
+                    'productionUnitId' => $productionUnit->getId(),
+                    'productGroupId' => $productGroup->getId(),
+                    'amount' => 150,
+                ],
             ],
         ];
 
@@ -49,11 +51,13 @@ class ProductionCapacityCest
         $I->seeResponseCodeIs(207);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-            [
-                'statusCode' => 201,
-                'message' => 'Production capacity resource successfully created.',
-                'resource' => $data[0],
-            ]
+            'productionCapacities' => [
+                [
+                    'statusCode' => 201,
+                    'message' => 'Production capacity resource successfully created.',
+                    'resource' => $data['productionCapacities'][0],
+                ]
+            ],
         ]);
     }
 
@@ -69,17 +73,19 @@ class ProductionCapacityCest
         $productGroup = $this->fixture->getReference(ProductGroupFixtureLoader::REF_PRODUCT_GROUP, 3);
 
         $data = [
-            [
-                'timeUnitId' => $timeUnit->getId(),
-                'productionUnitId' => $productionUnit1->getId(),
-                'productGroupId' => $productGroup->getId(),
-                'amount' => 150,
-            ],
-            [
-                'timeUnitId' => $timeUnit->getId(),
-                'productionUnitId' => $productionUnit2->getId(),
-                'productGroupId' => $productGroup->getId(),
-                'amount' => 200,
+            'productionCapacities' => [
+                [
+                    'timeUnitId' => $timeUnit->getId(),
+                    'productionUnitId' => $productionUnit1->getId(),
+                    'productGroupId' => $productGroup->getId(),
+                    'amount' => 150,
+                ],
+                [
+                    'timeUnitId' => $timeUnit->getId(),
+                    'productionUnitId' => $productionUnit2->getId(),
+                    'productGroupId' => $productGroup->getId(),
+                    'amount' => 200,
+                ],
             ],
         ];
 
@@ -89,15 +95,17 @@ class ProductionCapacityCest
         $I->seeResponseCodeIs(207);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-            [
-                'statusCode' => 201,
-                'message' => 'Production capacity resource successfully created.',
-                'resource' => $data[0],
-            ],
-            [
-                'statusCode' => 201,
-                'message' => 'Production capacity resource successfully created.',
-                'resource' => $data[1],
+            'productionCapacities' => [
+                [
+                    'statusCode' => 201,
+                    'message' => 'Production capacity resource successfully created.',
+                    'resource' => $data['productionCapacities'][0],
+                ],
+                [
+                    'statusCode' => 201,
+                    'message' => 'Production capacity resource successfully created.',
+                    'resource' => $data['productionCapacities'][1],
+                ],
             ],
         ]);
     }
@@ -110,11 +118,13 @@ class ProductionCapacityCest
         $productGroup = $this->fixture->getReference(ProductGroupFixtureLoader::REF_PRODUCT_GROUP, 3);
 
         $data = [
-            [
-                'timeUnitId' => $timeUnit->getId(),
-                'productionUnitId' => null,
-                'productGroupId' => $productGroup->getId() + 1000, // This entity definitely doesn't exists.
-                'amount' => 150,
+            'productionCapacities' => [
+                [
+                    'timeUnitId' => $timeUnit->getId(),
+                    'productionUnitId' => null,
+                    'productGroupId' => $productGroup->getId() + 1000, // This entity definitely doesn't exists.
+                    'amount' => 150,
+                ],
             ],
         ];
 
@@ -124,22 +134,24 @@ class ProductionCapacityCest
         $I->seeResponseCodeIs(207);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-            [
-                'statusCode' => 422,
-                'message' => 'Production capacity resource is not valid.',
-                'validationErrors' => [
-                    'violations' => [
-                        [
-                            'propertyPath' => 'productionUnitId',
-                            'title' => 'This value should not be null.',
-                        ],
-                        [
-                            'propertyPath' => 'productGroupId',
-                            'title' => 'This value should exist.',
+            'productionCapacities' => [
+                [
+                    'statusCode' => 422,
+                    'message' => 'Production capacity resource is not valid.',
+                    'validationErrors' => [
+                        'violations' => [
+                            [
+                                'propertyPath' => 'productionUnitId',
+                                'title' => 'This value should not be null.',
+                            ],
+                            [
+                                'propertyPath' => 'productGroupId',
+                                'title' => 'This value should exist.',
+                            ],
                         ],
                     ],
-                ],
-            ]
+                ]
+            ],
         ]);
     }
 
@@ -155,17 +167,19 @@ class ProductionCapacityCest
         $productGroup = $this->fixture->getReference(ProductGroupFixtureLoader::REF_PRODUCT_GROUP, 3);
 
         $data = [
-            [
-                'timeUnitId' => $timeUnit->getId(),
-                'productionUnitId' => $productionUnit1->getId(),
-                'productGroupId' => $productGroup->getId(),
-                'amount' => 150,
-            ],
-            [
-                'timeUnitId' => $timeUnit->getId(),
-                'productionUnitId' => $productionUnit2->getId(),
-                'productGroupId' => $productGroup->getId() + 1000,
-                'amount' => null,
+            'productionCapacities' => [
+                [
+                    'timeUnitId' => $timeUnit->getId(),
+                    'productionUnitId' => $productionUnit1->getId(),
+                    'productGroupId' => $productGroup->getId(),
+                    'amount' => 150,
+                ],
+                [
+                    'timeUnitId' => $timeUnit->getId(),
+                    'productionUnitId' => $productionUnit2->getId(),
+                    'productGroupId' => $productGroup->getId() + 1000,
+                    'amount' => null,
+                ],
             ],
         ];
 
@@ -175,23 +189,25 @@ class ProductionCapacityCest
         $I->seeResponseCodeIs(207);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-            [
-                'statusCode' => 201,
-                'message' => 'Production capacity resource successfully created.',
-                'resource' => $data[0],
-            ],
-            [
-                'statusCode' => 422,
-                'message' => 'Production capacity resource is not valid.',
-                'validationErrors' => [
-                    'violations' => [
-                        [
-                            'propertyPath' => 'amount',
-                            'title' => 'This value should not be null.',
-                        ],
-                        [
-                            'propertyPath' => 'productGroupId',
-                            'title' => 'This value should exist.',
+            'productionCapacities' => [
+                [
+                    'statusCode' => 201,
+                    'message' => 'Production capacity resource successfully created.',
+                    'resource' => $data['productionCapacities'][0],
+                ],
+                [
+                    'statusCode' => 422,
+                    'message' => 'Production capacity resource is not valid.',
+                    'validationErrors' => [
+                        'violations' => [
+                            [
+                                'propertyPath' => 'amount',
+                                'title' => 'This value should not be null.',
+                            ],
+                            [
+                                'propertyPath' => 'productGroupId',
+                                'title' => 'This value should exist.',
+                            ],
                         ],
                     ],
                 ],

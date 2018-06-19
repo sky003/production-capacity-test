@@ -5,6 +5,8 @@ declare(strict_types = 1);
 namespace App\Controller;
 
 use App\Dto\Assembler\ProductionCapacityAssembler;
+use App\Dto\Request as RequestDto;
+use App\Dto\Response as ResponseDto;
 use App\Service\Exception\ServiceException;
 use App\Service\ProductionCapacity\ProductionCapacityCrudService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -61,22 +63,26 @@ class ProductionCapacityController
      */
     public function batchCreateAction(Request $request): Response
     {
-        $dtoMap = $this->serializer->deserialize(
+        /** @var RequestDto\ProductionCapacityList $requestList */
+        $requestList = $this->serializer->deserialize(
             $request->getContent(),
-            'App\Dto\Request\ProductionCapacity[]',
+            RequestDto\ProductionCapacityList::class,
             'json'
         );
 
-        $responseData = [];
-        foreach ($dtoMap as $key => $dto) {
+        $responseList = new ResponseDto\ProductionCapacityList();
+        foreach ($requestList->getProductionCapacities() as $key => $dto) {
             // Stage 1: validate
             $errors = $this->validator->validate($dto, null, ['OpCreate']);
             if (\count($errors) > 0) {
-                $responseData[$key] = [
-                    'statusCode' => Response::HTTP_UNPROCESSABLE_ENTITY,
-                    'message' => 'Production capacity resource is not valid.',
-                    'validationErrors' => $errors,
-                ];
+                $responseList->addProductionCapacityListItem(
+                    new ResponseDto\ProductionCapacityListItem(
+                        Response::HTTP_UNPROCESSABLE_ENTITY,
+                        'Production capacity resource is not valid.',
+                        null,
+                        $errors
+                    )
+                );
 
                 continue;
             }
@@ -88,26 +94,31 @@ class ProductionCapacityController
             try {
                 $this->crudService->create($entity);
             } catch (ServiceException $e) {
-                $responseData[$key] = [
-                    'statusCode' => Response::HTTP_INTERNAL_SERVER_ERROR,
-                    'message' => 'Error occurred while trying to create the production capacity resource.',
-                ];
+                $responseList->addProductionCapacityListItem(
+                    new ResponseDto\ProductionCapacityListItem(
+                        Response::HTTP_INTERNAL_SERVER_ERROR,
+                        'Error occurred while trying to create the production capacity resource.'
+                    )
+                );
 
                 continue;
             }
 
             // Stage 4: write dto
             $dto = $this->assembler->writeDto($entity);
-            $responseData[$key] = [
-                'statusCode' => Response::HTTP_CREATED,
-                'message' => 'Production capacity resource successfully created.',
-                'resource' => $dto,
-            ];
+
+            $responseList->addProductionCapacityListItem(
+                new ResponseDto\ProductionCapacityListItem(
+                    Response::HTTP_CREATED,
+                    'Production capacity resource successfully created.',
+                    $dto
+                )
+            );
         }
 
         return new JsonResponse(
             $this->serializer->serialize(
-                $responseData,
+                $responseList,
                 'json'
             ),
             Response::HTTP_MULTI_STATUS,

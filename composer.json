@@ -11,6 +11,8 @@
         "symfony/lts": "^4@dev",
         "symfony/monolog-bundle": "^3.3",
         "symfony/orm-pack": "^1.0",
+        "symfony/property-access": "^4.1",
+        "symfony/property-info": "^4.1",
         "symfony/serializer": "^4.1",
         "symfony/validator": "^4.1",
         "symfony/yaml": "^4.1"

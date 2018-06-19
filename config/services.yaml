@@ -28,7 +28,10 @@ services:
     # please note that last definitions always *replace* previous ones
 
     # serializer configuration
-    Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer:
+    Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor: ~
+    Symfony\Component\Serializer\Normalizer\ObjectNormalizer:
+        arguments:
+            $propertyTypeExtractor: '@Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor'
         tags:
             - { name: 'serializer.normalizer' }
     Symfony\Component\Serializer\Normalizer\ArrayDenormalizer:
