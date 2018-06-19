@@ -129,7 +129,7 @@ class ProductionCapacity
     /**
      * @return \DateTime
      */
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
@@ -139,7 +139,7 @@ class ProductionCapacity
      *
      * @return self
      */
-    public function setUpdatedAt(\DateTime $updatedAt): ProductionCapacity
+    public function setUpdatedAt(?\DateTime $updatedAt): ProductionCapacity
     {
         $this->updatedAt = $updatedAt;
 

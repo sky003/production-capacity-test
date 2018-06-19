@@ -107,7 +107,7 @@ class ProductGroup
     /**
      * @return \DateTime
      */
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
@@ -117,7 +117,7 @@ class ProductGroup
      *
      * @return self
      */
-    public function setUpdatedAt(\DateTime $updatedAt): ProductGroup
+    public function setUpdatedAt(?\DateTime $updatedAt): ProductGroup
     {
         $this->updatedAt = $updatedAt;
 

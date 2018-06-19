@@ -107,7 +107,7 @@ class TimeUnit
     /**
      * @return \DateTime
      */
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
@@ -117,7 +117,7 @@ class TimeUnit
      *
      * @return self
      */
-    public function setUpdatedAt(\DateTime $updatedAt): TimeUnit
+    public function setUpdatedAt(?\DateTime $updatedAt): TimeUnit
     {
         $this->updatedAt = $updatedAt;
 

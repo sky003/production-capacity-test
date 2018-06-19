@@ -107,7 +107,7 @@ class ProductionUnit
     /**
      * @return \DateTime
      */
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
@@ -117,7 +117,7 @@ class ProductionUnit
      *
      * @return self
      */
-    public function setUpdatedAt(\DateTime $updatedAt): ProductionUnit
+    public function setUpdatedAt(?\DateTime $updatedAt): ProductionUnit
     {
         $this->updatedAt = $updatedAt;
 
